@@ -1,0 +1,23 @@
+* {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.list__adalab {
+  width: 100%;
+}
+.title__list {
+  text-align: left;
+  background-color: pink;
+}
+.form {
+  background-color: pink;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+.newAdalaber {
+  margin: 20px;
+  padding: 20px;
+}

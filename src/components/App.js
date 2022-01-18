@@ -12,7 +12,7 @@ function App() {
   const title = "Adalabers";
   const getHtml = () => {
     return adalabers.map((eachAdalaber) => (
-      <tr key={eachAdalaber.id}>
+      <tr className="list__adalabers" key={eachAdalaber.id}>
         <td>{eachAdalaber.name}</td>
         <td>{eachAdalaber.counselor}</td>
         <td>{eachAdalaber.speciality}</td>
@@ -62,10 +62,10 @@ function App() {
     <div>
       <h1>{title}</h1>
 
-      <table>
+      <table className="list__adalab">
         {/* Fila de cabecera  */}
         <thead>
-          <tr>
+          <tr className="title__list">
             <th>Nombre</th>
             <th>Tutora</th>
             <th>Especialidad</th>
@@ -73,8 +73,8 @@ function App() {
         </thead>
         <tbody>{getHtml()}</tbody>
       </table>
-      <h2>Añadir una Adalaber</h2>
-      <form>
+      <h2 class="newAdalaber">Añadir una Adalaber</h2>
+      <form className="form">
         <label htmlFor="name">Nombre:</label>
         <input
           type="text"
