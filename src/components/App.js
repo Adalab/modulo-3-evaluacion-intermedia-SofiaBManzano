@@ -1,10 +1,10 @@
 import "../styles/App.scss";
-import { useState } from "react";
-import adalabersList from "../services/apijson.json";
-//import callToApi from '../services/api';
+import { useEffect, useState } from "react";
+//import adalabersList from "../services/apijson.json";
+import callToApi from "../services/api";
 function App() {
   //estados
-  const [adalabers, setAdalabers] = useState(adalabersList.results);
+  const [adalabers, setAdalabers] = useState([]);
   const [inputName, setInputName] = useState("");
   const [inputSpeciality, setInputSpeciality] = useState("");
   const [inputCounselor, setInputCounselor] = useState("");
@@ -19,7 +19,16 @@ function App() {
       </tr>
     ));
   };
+  useEffect(
+    () => {
+      callToApi().then((responseData) => {
+        setAdalabers(responseData);
+      });
+    },
+    //segundo parámetro: cuándo se ejecuta useEffect
 
+    []
+  );
   //funciones manejadoras
   const handleInputName = (ev) => {
     setInputName(ev.currentTarget.value);
