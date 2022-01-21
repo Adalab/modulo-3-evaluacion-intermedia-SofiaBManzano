@@ -1,6 +1,6 @@
 import "../styles/App.scss";
 import { useEffect, useState } from "react";
-//import adalabersList from "../services/apijson.json";
+
 import callToApi from "../services/api";
 function App() {
   //estados
@@ -8,28 +8,66 @@ function App() {
   const [inputName, setInputName] = useState("");
   const [inputSpeciality, setInputSpeciality] = useState("");
   const [inputCounselor, setInputCounselor] = useState("");
+  const [inputFilterName, setInputFilterName] = useState("");
+  const [filterSelect, setFilterSelect] = useState("Selecciona una tutora");
   //constantes normales
   const title = "Adalabers";
-  const getHtml = () => {
-    return adalabers.map((eachAdalaber) => (
-      <tr className="list__adalabers" key={eachAdalaber.id}>
-        <td>{eachAdalaber.name}</td>
-        <td>{eachAdalaber.counselor}</td>
-        <td>{eachAdalaber.speciality}</td>
-      </tr>
-    ));
-  };
-  useEffect(
-    () => {
-      callToApi().then((responseData) => {
-        setAdalabers(responseData);
-      });
-    },
-    //segundo parámetro: cuándo se ejecuta useEffect
 
-    []
-  );
+  const getHtml = () => {
+    if (filterSelect === "Selecciona una tutora") {
+      return adalabers
+        .filter((eachAdalaber) =>
+          eachAdalaber.name
+            .toLowerCase()
+            .includes(inputFilterName.toLowerCase())
+        )
+        .map((eachAdalaber) => (
+          <tr className="list__adalabers" key={eachAdalaber.id}>
+            <td>{eachAdalaber.name}</td>
+            <td>{eachAdalaber.counselor}</td>
+            <td>{eachAdalaber.speciality}</td>
+            <td>
+              {eachAdalaber.social_networks.map((eachSocial) => (
+                <td>
+                  <a href={eachSocial.url}>{eachSocial.name}</a>
+                </td>
+              ))}
+            </td>
+          </tr>
+        ));
+    } else {
+      return adalabers
+        .filter((eachAdalaber) =>
+          eachAdalaber.name
+            .toLowerCase()
+            .includes(inputFilterName.toLowerCase())
+        )
+        .filter((eachAdalaber) => eachAdalaber.counselor.includes(filterSelect))
+        .map((eachAdalaber) => (
+          <tr className="list__adalabers" key={eachAdalaber.id}>
+            <td>{eachAdalaber.name}</td>
+            <td>{eachAdalaber.counselor}</td>
+            <td>{eachAdalaber.speciality}</td>
+            <td>
+              {eachAdalaber.social_networks.map((eachSocial) => (
+                <td>
+                  <a href={eachSocial.url}>{eachSocial.name}</a>
+                </td>
+              ))}
+            </td>
+          </tr>
+        ));
+    }
+  };
+  useEffect(() => {
+    callToApi().then((responseData) => {
+      setAdalabers(responseData);
+    });
+  }, []);
   //funciones manejadoras
+  const handleFilterSelect = (ev) => {
+    setFilterSelect(ev.target.value);
+  };
   const handleInputName = (ev) => {
     setInputName(ev.currentTarget.value);
   };
@@ -39,6 +77,9 @@ function App() {
   const handleInputSpeciality = (ev) => {
     setInputSpeciality(ev.currentTarget.value);
   };
+  const handleFilterName = (ev) => {
+    setInputFilterName(ev.currentTarget.value);
+  };
   const handleSubmit = (ev) => {
     ev.preventDefault();
     const newAdalaber = {
@@ -46,6 +87,7 @@ function App() {
       counselor: inputCounselor,
       speciality: inputSpeciality,
     };
+
     //me creo una nueva variable con el spread (plagia contactos antiguos y suma los nuevos)
 
     let newAdalaberList = [...adalabers, newAdalaber];
@@ -62,6 +104,27 @@ function App() {
     <div>
       <h1>{title}</h1>
 
+      <form>
+        <label htmlFor="name">Nombre:</label>
+        <input
+          type="text"
+          name="name"
+          placeholder="Ej. MariCarmen"
+          value={inputFilterName}
+          onChange={handleFilterName}
+        ></input>
+        <label htmlFor="name">Tutora:</label>
+        <select
+          name="select"
+          value={filterSelect}
+          onChange={handleFilterSelect}
+        >
+          <option>Selecciona una tutora</option>
+          <option>Yanelis</option>
+          <option>Iván</option>
+          <option>Dayana</option>
+        </select>
+      </form>
       <table className="list__adalab">
         {/* Fila de cabecera  */}
         <thead>
@@ -69,17 +132,18 @@ function App() {
             <th>Nombre</th>
             <th>Tutora</th>
             <th>Especialidad</th>
+            <th>Redes</th>
           </tr>
         </thead>
         <tbody>{getHtml()}</tbody>
       </table>
-      <h2 class="newAdalaber">Añadir una Adalaber</h2>
+      <h2 className="newAdalaber">Añadir una Adalaber</h2>
       <form className="form">
         <label htmlFor="name">Nombre:</label>
         <input
           type="text"
           name="name"
-          placeholder="Nombre..."
+          placeholder="Ej. Maricarmen"
           value={inputName}
           onChange={handleInputName}
         />
@@ -87,7 +151,7 @@ function App() {
         <input
           type="text"
           name="counselor"
-          placeholder="Tutora..."
+          placeholder="Ej. Yanelis"
           value={inputCounselor}
           onChange={handleInputCounselor}
         />
@@ -95,7 +159,7 @@ function App() {
         <input
           type="text"
           name="speciality"
-          placeholder="Especialidad..."
+          placeholder="Ej. ReactJS"
           value={inputSpeciality}
           onChange={handleInputSpeciality}
         />
