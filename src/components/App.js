@@ -21,24 +21,30 @@ function App() {
             .toLowerCase()
             .includes(inputFilterName.toLowerCase())
         )
-        .map((eachAdalaber) => (
-          <tr
-            key={eachAdalaber.id}
-            className="list__adalabers"
-            key={eachAdalaber.id}
-          >
-            <td>{eachAdalaber.name}</td>
-            <td>{eachAdalaber.counselor}</td>
-            <td>{eachAdalaber.speciality}</td>
-            <td>
-              {eachAdalaber.social_networks.map((eachSocial) => (
-                <a className="links" href={eachSocial.url}>
-                  {eachSocial.name}
-                </a>
-              ))}
-            </td>
-          </tr>
-        ));
+        .map((eachAdalaber, index) => {
+          return adalabers.social_networks ? (
+            <tr key={index} className="list__adalabers">
+              <td>{eachAdalaber.name}</td>
+              <td>{eachAdalaber.counselor}</td>
+              <td>{eachAdalaber.speciality}</td>
+            </tr>
+          ) : (
+            <tr>
+              <td>{eachAdalaber.name}</td>
+              <td>{eachAdalaber.counselor}</td>
+              <td>{eachAdalaber.speciality}</td>
+              <td>
+                {eachAdalaber.social_networks.map((eachSocial, index) => {
+                  return (
+                    <a key={index} href={eachSocial.url}>
+                      {eachSocial.name}
+                    </a>
+                  );
+                })}
+              </td>
+            </tr>
+          );
+        });
     } else {
       return adalabers
         .filter((eachAdalaber) =>
@@ -47,22 +53,30 @@ function App() {
             .includes(inputFilterName.toLowerCase())
         )
         .filter((eachAdalaber) => eachAdalaber.counselor.includes(filterSelect))
-        .map((eachAdalaber) => (
-          <tr
-            key={eachAdalaber.id}
-            className="list__adalabers"
-            key={eachAdalaber.id}
-          >
-            <td>{eachAdalaber.name}</td>
-            <td>{eachAdalaber.counselor}</td>
-            <td>{eachAdalaber.speciality}</td>
-            <td>
-              {eachAdalaber.social_networks.map((eachSocial) => (
-                <a href={eachSocial.url}>{eachSocial.name}</a>
-              ))}
-            </td>
-          </tr>
-        ));
+        .map((eachAdalaber, index) => {
+          return adalabers.social_networks ? (
+            <tr key={index} className="list__adalabers">
+              <td>{eachAdalaber.name}</td>
+              <td>{eachAdalaber.counselor}</td>
+              <td>{eachAdalaber.speciality}</td>
+            </tr>
+          ) : (
+            <tr>
+              <td>{eachAdalaber.name}</td>
+              <td>{eachAdalaber.counselor}</td>
+              <td>{eachAdalaber.speciality}</td>
+              <td>
+                {eachAdalaber.social_networks.map((eachSocial, index) => {
+                  return (
+                    <a key={index} href={eachSocial.url}>
+                      {eachSocial.name}
+                    </a>
+                  );
+                })}
+              </td>
+            </tr>
+          );
+        });
     }
   };
   useEffect(() => {
