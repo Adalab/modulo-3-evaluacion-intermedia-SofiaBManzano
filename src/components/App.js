@@ -22,15 +22,19 @@ function App() {
             .includes(inputFilterName.toLowerCase())
         )
         .map((eachAdalaber) => (
-          <tr className="list__adalabers" key={eachAdalaber.id}>
+          <tr
+            key={eachAdalaber.id}
+            className="list__adalabers"
+            key={eachAdalaber.id}
+          >
             <td>{eachAdalaber.name}</td>
             <td>{eachAdalaber.counselor}</td>
             <td>{eachAdalaber.speciality}</td>
             <td>
               {eachAdalaber.social_networks.map((eachSocial) => (
-                <td>
-                  <a href={eachSocial.url}>{eachSocial.name}</a>
-                </td>
+                <a className="links" href={eachSocial.url}>
+                  {eachSocial.name}
+                </a>
               ))}
             </td>
           </tr>
@@ -44,15 +48,17 @@ function App() {
         )
         .filter((eachAdalaber) => eachAdalaber.counselor.includes(filterSelect))
         .map((eachAdalaber) => (
-          <tr className="list__adalabers" key={eachAdalaber.id}>
+          <tr
+            key={eachAdalaber.id}
+            className="list__adalabers"
+            key={eachAdalaber.id}
+          >
             <td>{eachAdalaber.name}</td>
             <td>{eachAdalaber.counselor}</td>
             <td>{eachAdalaber.speciality}</td>
             <td>
               {eachAdalaber.social_networks.map((eachSocial) => (
-                <td>
-                  <a href={eachSocial.url}>{eachSocial.name}</a>
-                </td>
+                <a href={eachSocial.url}>{eachSocial.name}</a>
               ))}
             </td>
           </tr>
@@ -62,6 +68,7 @@ function App() {
   useEffect(() => {
     callToApi().then((responseData) => {
       setAdalabers(responseData);
+      console.log(responseData);
     });
   }, []);
   //funciones manejadoras
@@ -93,20 +100,22 @@ function App() {
     let newAdalaberList = [...adalabers, newAdalaber];
 
     //cambio el valor del estado adalabers
+    // console.log(newAdalaberList);
     setAdalabers(newAdalaberList);
     //limpio inputs
-    setInputSpeciality("");
-    setInputCounselor("");
-    setInputSpeciality("");
+    // setInputSpeciality("");
+    // setInputCounselor("");
+    // setInputSpeciality("");
   };
 
   return (
-    <div>
-      <h1>{title}</h1>
+    <div className="body">
+      <h1 className="title">{title}</h1>
 
       <form>
         <label htmlFor="name">Nombre:</label>
         <input
+          className="input"
           type="text"
           name="name"
           placeholder="Ej. MariCarmen"
@@ -115,6 +124,7 @@ function App() {
         ></input>
         <label htmlFor="name">Tutora:</label>
         <select
+          className="input"
           name="select"
           value={filterSelect}
           onChange={handleFilterSelect}
@@ -135,12 +145,13 @@ function App() {
             <th>Redes</th>
           </tr>
         </thead>
-        <tbody>{getHtml()}</tbody>
+        <tbody className="title__list--results">{getHtml()}</tbody>
       </table>
       <h2 className="newAdalaber">Añadir una Adalaber</h2>
       <form className="form">
         <label htmlFor="name">Nombre:</label>
         <input
+          className="input"
           type="text"
           name="name"
           placeholder="Ej. Maricarmen"
@@ -149,6 +160,7 @@ function App() {
         />
         <label htmlFor="name">Tutora:</label>
         <input
+          className="input"
           type="text"
           name="counselor"
           placeholder="Ej. Yanelis"
@@ -157,6 +169,7 @@ function App() {
         />
         <label htmlFor="name">Especialidad</label>
         <input
+          className="input"
           type="text"
           name="speciality"
           placeholder="Ej. ReactJS"
@@ -164,6 +177,7 @@ function App() {
           onChange={handleInputSpeciality}
         />
         <input
+          className="input"
           className="new-contact__btn"
           type="submit"
           value="Añadir"
